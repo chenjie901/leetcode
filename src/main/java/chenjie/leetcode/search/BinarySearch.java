@@ -118,4 +118,30 @@ public class BinarySearch {
         Arrays.sort(arr, Collections.reverseOrder());
         System.out.println(Arrays.toString(arr));
     }
+    public int search(int[] nums, int target) {
+        int len = nums.length;
+
+        int left = 0;
+        int right = len - 1;
+        // 目标元素可能存在在区间 [left, right]
+        while (left < right) {
+            int mid = left + (right - left ) / 2;
+            if (nums[mid] > target) {
+                // 下一轮搜索区间是 [mid + 1, right]
+                right = mid;
+            } else {
+                // 下一轮搜索区间是 [left, mid]
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    @Test
+    public void test001() {
+        int[] arr = {1, 3, 5, 7};
+        System.out.println(search(arr, 6));
+    }
+
+
 }
