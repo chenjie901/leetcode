@@ -8,7 +8,6 @@ import java.util.Queue;
 
 public class BFS {
     int[][] dirs = new int[][]{{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
-
     public void bfs(Queue<int[]> queue, int[][] arr) {
         int[][] visited = new int[arr.length][arr[0].length];
         int level = 0;

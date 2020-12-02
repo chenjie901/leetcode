@@ -16,32 +16,34 @@ public class Dfs {
                 {7, 8, 9}
         };
         int[][] visited = new int[graph.length][graph[0].length];
-        Deque<int[]> path = new LinkedList<>();
-        path.push(new int[]{0, 0});
+        Deque<Point> path = new LinkedList<>();
+        Point start = new Point(0, 0, null);
+        path.push(start);
         visited[0][0] = 1;
-        dfs(graph, visited, 0, 0, path);
+        dfs(graph, visited, start, path);
     }
 
-    public void dfs(int[][] graph, int[][] visited, int r0, int c0, Deque<int[]> path) {
-        if (r0 == 2 && c0 == 2) {
-            Iterator<int[]> iterator = path.descendingIterator();
-            while (iterator.hasNext()) {
-                int[] c = iterator.next();
-                System.out.printf("%d\t", graph[c[0]][c[1]]);
+    public void dfs(int[][] graph, int[][] visited, Point p, Deque<Point> path) {
+        if (p.x == 2 && p.y == 2) {
+            Point c = p;
+            while (c.prev != null) {
+                System.out.printf("%d\t", graph[c.x][c.y]);
+                c = c.prev;
             }
             System.out.println();
         }
 
         for (int k = 0; k < 4; k++) {
-            int xNew = r0 + dirX[k];
-            int yNew = c0 + dirY[k];
+            int xNew = p.x + dirX[k];
+            int yNew = p.y + dirY[k];
             if (!inArea(graph, xNew, yNew) || visited[xNew][yNew] == 1) {
                 continue;
             }
 
             visited[xNew][yNew] = 1;
-            path.push(new int[]{xNew, yNew});
-            dfs(graph, visited, xNew, yNew, path);
+            Point next = new Point(xNew, yNew, p);
+            path.push(next);
+            dfs(graph, visited, next, path);
             visited[xNew][yNew] = 0;
             path.pop();
         }
@@ -52,5 +54,17 @@ public class Dfs {
             return false;
         }
         return true;
+    }
+
+    class Point {
+        int x;
+        int y;
+        Point prev;
+
+        public Point(int x, int y, Point prev) {
+            this.x = x;
+            this.y = y;
+            this.prev = prev;
+        }
     }
 }
