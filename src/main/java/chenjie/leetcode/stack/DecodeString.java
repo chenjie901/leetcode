@@ -49,4 +49,36 @@ public class DecodeString {
         }
         return res;
     }
+    public String decodeString(String s) {
+        return dfs(s, 0)[0];
+    }
+
+    public String[] dfs(String s, int idx) {
+        StringBuffer res = new StringBuffer();
+        int count = 0;
+        while (idx < s.length()) {
+            char c = s.charAt(idx);
+            if (c == '[') {
+                String[] tmp = dfs(s, idx + 1);
+                idx = Integer.parseInt(tmp[0]);
+                while (count > 0) {
+                    res.append(tmp[1]);
+                    count--;
+                }
+            } else if (c == ']') {
+                return new String[]{String.valueOf(idx), res.toString()};
+            } else if (Character.isDigit(c)) {
+                count = count * 10 + c - '0';
+            } else {
+                res.append(c);
+            }
+            idx++;
+        }
+        return new String[]{res.toString()};
+    }
+
+    @Test
+    public void test002() {
+        decodeString("3[a]2[bc]");
+    }
 }
