@@ -22,7 +22,6 @@ public class CombinationSum2 {
 
         if (target == 0) {
             ans.add(new LinkedList<>(path));
-            return;
             for (int i = idx; i < candidates.length; i++) {
                 if (i > 0 && candidates[i] == candidates[i - 1] && visited[i - 1] == 0) {
                     continue;
