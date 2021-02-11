@@ -1,101 +1,59 @@
 package chenjie.leetcode.dp;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Stack;
 
 public class OddEvenJumps {
-    int[][] cache;
-    int ans = 0;
-
     public int oddEvenJumps(int[] A) {
-        cache = new int[A.length][2];
-        int len = A.length;
-
-        for (int i = 0; i < len; i++) {
-            int max = A[i];
-            int min = A[i];
-            int maxIdx = i;
-            int minIdx = i;
-            for (int j = i + 1; j < len; j++) {
-                if (A[j] >= max) {
-                    max = A[j];
-                    maxIdx = j;
-                }
-                if (A[j] <= min) {
-                    min = A[j];
-                    minIdx = j;
-                }
-            }
-
-            if (maxIdx > i) {
-                cache[i][1] = maxIdx;
-            } else {
-                cache[i][1] = -1;
-            }
-            if (minIdx > i) {
-                cache[i][0] = minIdx;
-            } else {
-                cache[i][0] = -1;
-            }
+        int n = A.length;
+        Integer[] arr = new Integer[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = i;
         }
-        int[] odd = new int[len];
-        int[] even = new int[len];
-        for (int i = 0; i < len; i++) {
-            odd[i] = cache[i][0];
-            even[i] = cache[i][1];
+        Arrays.sort(arr, (a, b) -> A[a] == A[b] ? a - b : A[a] - A[b]);
+        System.out.println(Arrays.toString(arr));
+        int[] sin = order(arr);
+        System.out.println(Arrays.toString(sin));
+        Arrays.sort(arr, (a, b) -> A[a] == A[b] ? a - b : A[b] - A[a]);
+        System.out.println(Arrays.toString(arr));
+        int[] dou = order(arr);
+        System.out.println(Arrays.toString(dou));
+        int[][] dp = new int[n][2];
+        dp[n - 1][0] = 1;
+        dp[n - 1][1] = 1;
+        for (int i = n - 2; i >= 0; i--) {
+            if (sin[i] != -1 && dp[sin[i]][1] == 1) dp[i][0] = 1;
+            if (dou[i] != -1 && dp[dou[i]][0] == 1) dp[i][1] = 1;
         }
-        System.out.println(Arrays.toString(odd));
-        System.out.println(Arrays.toString(even));
-
-        for (int i = 0; i< len; i++) {
-            if (dp(A, i, 0) || dp(A, i, 1)) {
-                System.out.println("can jump from " + i);
-                ans++;
-            }
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (dp[i][0] == 1) count++;
         }
-
-        return ans;
+        return count;
     }
 
-    private int binarySearch(int[] arr, int left, int right, int target) {
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (arr[mid] >= target) {
-                right = mid;
-            } else {
-                left = mid + 1;
+    int[] order(Integer[] arr) {
+        Stack<Integer> stack = new Stack<>();
+        int[] res = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            while (!stack.isEmpty() && stack.peek() < arr[i]) {
+                res[stack.pop()] = arr[i];
             }
+            stack.push(arr[i]);
         }
-        return left;
-    }
-
-    private boolean dp(int[] arr, int idx, int type) {
-        if (idx == arr.length - 1) {
-            return true;
+        while (!stack.isEmpty()) {
+            res[stack.pop()] = -1;
         }
-
-        if (type == 0 && cache[idx][1] !=  -1) {
-            if (dp(arr, cache[idx][1], 1)) {
-                return true;
-            }
-        }
-
-        if (type == 1 && cache[idx][0] != -1) {
-            if (dp(arr, cache[idx][0], 0)) {
-                return true;
-            }
-        }
-        return false;
+        return res;
     }
 
     @Test
     public void test001() {
         int[] arr = {10,13,12,14,15};
 
-        int[] a = {3, 4};
-        System.out.println(binarySearch(a, 0, 1, 8));
+        oddEvenJumps(arr);
     }
 
 }

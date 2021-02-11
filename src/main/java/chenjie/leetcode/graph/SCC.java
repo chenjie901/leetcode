@@ -15,7 +15,6 @@ public class SCC {
         List<Integer>[] transformedGraph = transform(graph);
 
         Arrays.fill(visited, 0);
-//        Collections.reverse(path);
 
         for (int v : path) {
             if (visited[v] == 0) {

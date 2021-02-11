@@ -3,22 +3,20 @@ package chenjie.leetcode.graph;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TopoSort {
-
     public List<Integer> topoSortDfs(List<Integer>[] graph) {
-        List<Integer> path = new LinkedList<>();
+        Deque<Integer> path = new LinkedList<>();
         int[] visited = new int[graph.length];
         for (int i = 0; i < graph.length; i++) {
             if (visited[i] == 0) {
                 dfs(graph, path, visited, i);
             }
         }
-
-        Collections.reverse(path);
-
+        //Collections.reverse(path);
         System.out.println(path);
-        return path;
+        return path.stream().collect(Collectors.toList());
     }
 
     public List<Integer> topoSort(List<Integer>[] graph) {
@@ -51,7 +49,7 @@ public class TopoSort {
         return ans;
     }
 
-    private void dfs(List<Integer>[] graph, List<Integer> path, int[] visited, int root) {
+    private void dfs(List<Integer>[] graph, Deque<Integer> path, int[] visited, int root) {
         visited[root] = 1;
         for (int v : graph[root]) {
             if (visited[v] == 1) {
@@ -59,7 +57,7 @@ public class TopoSort {
             }
             dfs(graph, path, visited, v);
         }
-        path.add(root);
+        path.addFirst(root);
     }
 
     @Test
@@ -73,6 +71,6 @@ public class TopoSort {
         graph[5] = Arrays.asList();
 
         topoSortDfs(graph);
-        topoSort(graph);
+        //topoSort(graph);
     }
 }
