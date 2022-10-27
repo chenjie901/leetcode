@@ -1,4 +1,4 @@
-package  chenjie.leetcode.everyday;
+package chenjie.leetcode.daily;
 
 public class KthGrammar {
     public int kthGrammar(int n, int k) {

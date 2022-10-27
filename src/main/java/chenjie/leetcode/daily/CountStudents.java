@@ -1,4 +1,4 @@
-package chenjie.leetcode.everyday;
+package chenjie.leetcode.daily;
 
 import java.util.LinkedList;
 import java.util.Queue;

@@ -1,4 +1,4 @@
-package  chenjie.leetcode.everyday;
+package chenjie.leetcode.daily;
 
 public class MergeAlternately {
     public String mergeAlternately(String word1, String word2) {
