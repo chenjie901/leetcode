@@ -19,14 +19,4 @@ public class PartitionDisjoint {
         }
         return min;
     }
-
-    public static void main(String[] args) {
-        int[] arrs = { 5, 0, 3, 8, 6 };
-        System.out.println(PartitionDisjoint(arrs));
-    }
-
-    @Test
-    public void test01() {
-        
-    }
 }
